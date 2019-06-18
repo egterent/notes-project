@@ -1,0 +1,23 @@
+<% provide(:title, @category.name) %>
+<div class="row">
+  <div class="col-md-8">
+    <% if @categories %>
+      <h3>Categories (<%= @category.subcategories.count %>)</h3>
+      <ol class="categories">
+        <%= render @categories%>
+      </ol>
+      <%= will_paginate @categories %>
+      <%= link_to "Add category", categories_new_path, class: "btn btn-lg btn-primary" %>
+    <% elsif @notes.any? %>
+      <h3>Notes (<%= @notes.count %>)</h3>
+      <ol class="notes">
+        <%= render @notes%>
+      </ol>
+      <%= will_paginate @notes %>
+      <%= link_to "Add note", notes_new_path, class: "btn btn-lg btn-primary" %>
+    <% else %>
+      <%= link_to "Add category", categories_new_path, class: "btn btn-lg btn-primary" %>
+      <%= link_to "Add note", notes_new_path, class: "btn btn-lg btn-primary" %>
+    <% end %>
+  </div>
+</div>

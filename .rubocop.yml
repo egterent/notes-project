@@ -1,3 +1,7 @@
+Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
 AllCops:
   Excludes:
   - bin/update

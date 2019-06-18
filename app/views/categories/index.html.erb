@@ -1,0 +1,9 @@
+<% provide(:title, 'Categories') %>
+<h3>Categories (<%= current_user.categories.count %>)</h3>
+<% if @categories.any? %>
+  <ol class="categories">
+    <%= render @categories%>
+  </ol>
+  <%= will_paginate @categories %>
+<% end %>
+<%= link_to "Add category", categories_new_path, class: "btn btn-lg btn-primary" %>
