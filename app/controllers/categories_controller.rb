@@ -16,7 +16,8 @@ class CategoriesController < ApplicationController
   def new
     store_parent_category_url
     @category = current_user.categories.build
-    @category.favorite = current_user.categories.find(parent_category_id).favorite if parent_category_id 
+    favorite_status = current_user.categories.find(parent_category_id).favorite
+    @category.favorite = favorite_status if parent_category_id
   end
 
   def create
@@ -37,11 +38,9 @@ class CategoriesController < ApplicationController
   def update
     @category = current_user.categories.find(params[:id])
     if @category.update_attributes(category_params)
-      update_nested_items(@category, params[:category][:favorite])
-      update_parent(@category, params[:category][:favorite])
+      update_dependent_items(@category)
       flash[:success] = 'Category updated'
-      parent_category = current_user.categories.find(@category.parent_id) if @category.parent_id
-      redirect_to parent_category || categories_url
+      redirect_updated_category(@category)
     else
       render 'edit'
     end
@@ -62,13 +61,5 @@ class CategoriesController < ApplicationController
   def correct_user
     @category = current_user.categories.find_by(id: params[:id])
     redirect_to categories_url if @category.nil?
-  end
-
-  def assign_resources
-    if @category.subcategories.any?
-      @categories = @category.subcategories.paginate(page: params[:page])
-    else
-      @notes = @category.notes.paginate(page: params[:page])
-    end
   end
 end
