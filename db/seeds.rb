@@ -11,7 +11,7 @@ password = "password"
 User.create!(name:  name,
              email: email,
              password:              'password',
-            password_confirmation: 'password')
+             password_confirmation: 'password')
 end
 
 users = User.order(:created_at).take(6)
