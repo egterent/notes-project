@@ -11,7 +11,7 @@ class Category < ApplicationRecord
     return notes.count if notes.any?
 
     return 0 unless subcategories.any?
-    
+
     count = 0
     subcategories.each do |category|
       count += category.nested_notes_count

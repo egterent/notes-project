@@ -24,7 +24,8 @@ module CategoriesHelper
     end
   end
 
-  # Uploads subcategories or notes regarding to which items the category contains
+  # Uploads subcategories or notes regarding to
+  # which items the category contains
   def assign_resources
     if @category.subcategories.any?
       @categories = @category.subcategories.paginate(page: params[:page])
@@ -44,7 +45,7 @@ module CategoriesHelper
   # if the category doesn't have any parent
   def redirect_updated_category(category)
     if @category.parent_id
-      parent_category = current_user.categories.find(category.parent_id) 
+      parent_category = current_user.categories.find(category.parent_id)
       redirect_to parent_category
     else
       redirect_to categories_url

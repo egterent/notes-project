@@ -66,10 +66,9 @@ module SessionsHelper
 
   # Returns id of category where a new category/note will be added
   def parent_category_id
-    parent_category_path = Rails.application.routes
-                                .recognize_path
-                                (URI(session[:parent_category_url]).path)
-    parent_category_path[:id]
+    uri = URI(session[:parent_category_url]).path
+    parent_path = Rails.application.routes.recognize_path(uri)
+    parent_path[:id]
   end
 
   # Redirect to the new category/note owner category
