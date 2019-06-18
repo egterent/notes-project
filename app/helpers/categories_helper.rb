@@ -18,10 +18,38 @@ module CategoriesHelper
         update_nested_items(subcategory, favorite_token)
       end
     elsif category.notes.any?
-      category.notes.each { |note| note.update_attribute(:favorite, favorite_token) }
+      category.notes.each do |note|
+        note.update_attribute(:favorite, favorite_token)
+      end
     end
   end
 
+  # Uploads subcategories or notes regarding to which items the category contains
+  def assign_resources
+    if @category.subcategories.any?
+      @categories = @category.subcategories.paginate(page: params[:page])
+    else
+      @notes = @category.notes.paginate(page: params[:page])
+    end
+  end
+
+  # Updates favorite status of all nested categories and notes
+  # and of all categories above the updated category
+  def update_dependent_items(category)
+    update_nested_items(category, params[:category][:favorite])
+    update_parent(category, params[:category][:favorite])
+  end
+
+  # Redirect to the updated category parent category or to categories index
+  # if the category doesn't have any parent
+  def redirect_updated_category(category)
+    if @category.parent_id
+      parent_category = current_user.categories.find(category.parent_id) 
+      redirect_to parent_category
+    else
+      redirect_to categories_url
+    end
+  end
 
   private
 
@@ -35,12 +63,14 @@ module CategoriesHelper
     change_parent_favorite_to_zero(parent_category)
   end
 
-  # Changes parent category favorite staus to 1 
+  # Changes parent category favorite staus to 1
   # if all nested categories favorite status was turned-on
   def change_parent_favorite_to_one(category)
     return unless category.parent_id
 
-    return if current_user.categories.where(parent_id: category.parent_id, favorite: 0).any?
+    return if current_user.categories
+                          .where(parent_id: category.parent_id,
+                                 favorite: 0).any?
 
     parent_category = current_user.categories.find(category.parent_id)
     parent_category.update_attribute(:favorite, 1)
