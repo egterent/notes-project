@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :logged_in_user, only: %i[create destroy]
   before_action :correct_user,   only: :destroy
-  include CategoriesHelper
+  include NestedItemsHandler
 
   def index
     @categories = current_user.categories.where(parent_id: nil)
