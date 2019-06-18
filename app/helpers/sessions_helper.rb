@@ -58,4 +58,21 @@ module SessionsHelper
   def store_location
     session[:forwarding_url] = request.original_url if request.get?
   end
+
+  # Stores the url of category where a new category/note will be added
+  def store_parent_category_url
+    session[:parent_category_url] = request.referrer
+  end
+
+  # Returns id of category where a new category/note will be added
+  def parent_category_id
+    parent_category_path = Rails.application.routes.recognize_path(URI(session[:parent_category_url]).path)
+    parent_category_path[:id]
+  end
+
+  # Redirect to the new category/note owner category or to category index if parent_category_url = nil
+  def redirect_to_parent_category
+    redirect_to(session[:parent_category_url] || categories_url)
+    session.delete(:parent_category_url)
+  end
 end

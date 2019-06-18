@@ -10,7 +10,12 @@
   </aside>
   <div class="col-md-8">
     <% if current_user.admin? || current_user?(@user) %> 
-      <li><%= link_to "Categories", categories_path %></li>
+      <h3> <%= link_to "CATEGORIES", categories_path %> </h3>
+      <h3> FAVORITE [<%= @favorites.count %>]</h3>
+      <ol class="favorites">
+        <%= render @favorites %>
+      </ol>
+      <% will_paginate @favorites %>
     <% end %>
   </div>
 </div>

@@ -9,6 +9,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @favorites = Note.where(user_id: params[:id], favorite: 1).paginate(page: params[:page])
   end
 
   def new

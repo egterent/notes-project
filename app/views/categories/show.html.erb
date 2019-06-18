@@ -1,8 +1,8 @@
 <% provide(:title, @category.name) %>
 <div class="row">
   <div class="col-md-8">
+    <h4><%= @category.name.upcase %> [<%= @category.subcategories.count %>|<%= @category.nested_notes_count %>]</h4>
     <% if @categories %>
-      <h3>Categories (<%= @category.subcategories.count %>)</h3>
       <ol class="categories">
         <%= render @categories%>
       </ol>
