@@ -1,3 +1,12 @@
 <li id="category-<%= category.id %>">
   <%= link_to category.name, category %>
+  | <%= link_to "update", edit_category_path(category) %> |
+  <% if category.nested_notes_count > 0 %>
+    <% warning = "Category #{category.name.upcase} contains #{pluralize(category.nested_notes_count,"note")}! 
+                  Delete anyway?" %>
+    <%= link_to "delete", category, method: :delete,
+                                    data: { confirm: warning } %>
+  <% else %>
+    <%= link_to "delete", category, method: :delete %>
+  <% end %>                            
 </li>

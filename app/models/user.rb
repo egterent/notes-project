@@ -9,6 +9,7 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, length: { minimum: 6 }, allow_nil: true
+  has_many :notes
 
   # Returns the hash digest of the given string.
   def self.digest(string)
@@ -21,7 +22,7 @@ class User < ApplicationRecord
   end
 
   # Returns a random token.
-  def self.new_token
+  def new_token
     SecureRandom.urlsafe_base64
   end
 

@@ -1,5 +1,5 @@
 <% provide(:title, 'Categories') %>
-<h3>Categories (<%= current_user.categories.count %>)</h3>
+<h3>ALL CATEGORIES [<%= current_user.categories.count %>|<%= current_user.notes.count %>]</h3>
 <% if @categories.any? %>
   <ol class="categories">
     <%= render @categories%>
