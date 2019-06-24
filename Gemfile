@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -41,7 +43,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-
+# Use Faker for generating fake data such as names, emails, etc.
 gem 'faker'
 
 # Use ActiveStorage variant
@@ -54,10 +56,10 @@ gem 'faker'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
-  # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+
   # Call 'byebug' anywhere in the code to stop execution
   # and get a debugger console
+
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   # Use factory_bot for fixtures replacement
   gem 'factory_bot_rails'
