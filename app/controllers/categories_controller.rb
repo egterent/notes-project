@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :logged_in_user, only: %i[create destroy]
   before_action :correct_user,   only: :destroy
-  include NestedItemsHandler
+  include ParentManager
 
   def index
     @categories = current_user.categories.where(parent_id: nil)
@@ -14,18 +14,20 @@ class CategoriesController < ApplicationController
   end
 
   def new
-    store_parent_category_url
     @category = current_user.categories.build
-    favorite_status = current_user.categories.find(parent_category_id).favorite
-    @category.favorite = favorite_status if parent_category_id
+    ParentManager::Reminder.call(session, request.referrer)
+    parent = ParentManager::CategoryProvider.call(session, current_user)
+    favorite_status = parent.favorite if parent
   end
 
   def create
     @category = current_user.categories.build(category_params)
-    @category.parent_id = parent_category_id
+    parent = ParentManager::CategoryProvider.call(session, current_user)
+    @category.parent_id = parent.id if parent
     if @category.save
+      @category.update_related_items(params[:category][:favorite])
       flash[:success] = 'Сategory created!'
-      redirect_to_parent_category
+      ParentManager::Redirector.call(session) { |back| redirect_to back }
     else
       render 'new'
     end
@@ -38,9 +40,9 @@ class CategoriesController < ApplicationController
   def update
     @category = current_user.categories.find(params[:id])
     if @category.update_attributes(category_params)
-      update_dependent_items(@category)
+      @category.update_related_items(params[:category][:favorite])
       flash[:success] = 'Category updated'
-      redirect_updated_category(@category)
+      redirect_to @category.parent || categories_url
     else
       render 'edit'
     end
@@ -61,5 +63,15 @@ class CategoriesController < ApplicationController
   def correct_user
     @category = current_user.categories.find_by(id: params[:id])
     redirect_to categories_url if @category.nil?
+  end
+
+  # Uploads subcategories or notes regarding to
+  # which items the category contains.
+  def assign_resources
+    if @category.subcategories.any?
+      @categories = @category.subcategories.paginate(page: params[:page])
+    else
+      @notes = @category.notes.paginate(page: params[:page])
+    end
   end
 end
