@@ -52,16 +52,18 @@ RSpec.describe Category, type: :model do
 
         context 'when a note is deleted' do
           it 'should decrement nested notes count' do
-            expect { subject.subcategories.first.notes.first.destroy }.to
-                      change { subject.nested_notes_count }.by(-1)
+            expect { subject.subcategories.first.notes.first.destroy }.to change
+              { subject.nested_notes_count }.by(-1)
           end
         end
 
         context 'when a new note is added' do
-          it 'should increment nested notes count' do      
-            expect { subject.subcategories.first.notes.create!(title: 'note',
-                                                               user_id: user.id) }
-                      .to change { subject.nested_notes_count }.by(1)
+          let(:subject_1) do
+            subject.subcategories.first.notes.create!(title: 'note',
+                                                      user_id: user.id)
+          end
+          it 'should increment nested notes count' do
+            expect { subject_1 }.to change { subject.nested_notes_count }.by(1)
           end
         end
       end
