@@ -5,7 +5,7 @@ RSpec.describe CategoriesController, type: :controller do
     describe 'POST #create' do
       let(:category_params) { { name: 'Music', favorite_token: 0 } }
       let(:create_category) do
-        post :create, params: { category: category_params }
+        post :create, category: category_params
       end
 
       it 'should redirect to login url' do
@@ -16,7 +16,7 @@ RSpec.describe CategoriesController, type: :controller do
 
     describe 'DELETE #destroy' do
       let(:delete_category) do
-        delete :destroy, params: { id: create(:category).id }
+        delete :destroy, id: create(:category).id
       end
 
       it 'should redirect to login url' do
