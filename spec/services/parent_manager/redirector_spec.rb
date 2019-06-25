@@ -12,7 +12,7 @@ RSpec.describe ParentManager::Redirector do
     end
 
     it 'should return parent category url' do
-      url1 = ""
+      url1 = ''
       described_class.call(session) { |str| url1 = str }
       expect(url1).to eq(url)
     end

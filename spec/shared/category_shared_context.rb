@@ -16,6 +16,7 @@ RSpec.shared_context 'notes and categories masks' do
     mask = {}
     subject_1.each do |category|
       next unless category.notes.any?
+
       category.notes.each do |note|
         mask[note.id] = inverse_favorite_token
       end
@@ -47,7 +48,7 @@ RSpec.shared_context 'one category favorite status updated' do
     category.update_attribute(:favorite, favorite_token)
     category.update_related_items(favorite_token)
     subject_1.reload
-  end 
+  end
 
   let(:categories_mask) do
     categories_mask_common[category.parent_id] = 0 if favorite_token == 0

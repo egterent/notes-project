@@ -51,7 +51,7 @@ RSpec.describe Category, type: :model do
         end
 
         context 'when a note is deleted' do
-          let(subject_0) do
+          let(:subject_0) do
             subject.subcategories.first.notes.first.destroy
           end
           it 'should decrement nested notes count' do
@@ -79,7 +79,7 @@ RSpec.describe Category, type: :model do
 
           context 'all related items favorite status' do
             include_context 'one category favorite status updated'
-            include_examples 'favorite status of related items should be changed'
+            include_examples 'should change related items favorite status'
           end
         end
 
@@ -90,7 +90,7 @@ RSpec.describe Category, type: :model do
             include_context 'initialize subject'
             include_context 'one category favorite status updated'
 
-            include_examples 'favorite status of related items should be changed'
+            include_examples 'should change related items favorite status'
           end
 
           context 'favorite status of parent category' do
@@ -98,7 +98,7 @@ RSpec.describe Category, type: :model do
             include_context 'two categories favorite status updated'
 
             context 'if all nested subcategories favorite status is 1' do
-              include_examples 'favorite status of related items should be changed'
+              include_examples 'should change related items favorite status'
             end
           end
         end
@@ -119,13 +119,17 @@ RSpec.describe Category, type: :model do
         end
 
         it 'should return the category with all subcategories' do
-          expect(subject.each).to
-            contain_exactly(subject, subject.subcategories.first,
-                            subject.subcategories.second,
-                            subject.subcategories.first.subcategories.first,
-                            subject.subcategories.first.subcategories.second,
-                            subject.subcategories.second.subcategories.first,
-                            subject.subcategories.second.subcategories.second)
+          expect(subject.each).to contain_exactly(subject,
+                                                  subject.subcategories.first,
+                                                  subject.subcategories.second,
+                                                  subject.subcategories.first
+                                                    .subcategories.first,
+                                                  subject.subcategories.first
+                                                    .subcategories.second,
+                                                  subject.subcategories.second
+                                                    .subcategories.first,
+                                                  subject.subcategories.second
+                                                    .subcategories.second)
         end
       end
     end

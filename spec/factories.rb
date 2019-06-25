@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :archive do
-    user_id { "" }
-    category_id { "" }
-    category_name { "MyString" }
-    note_id { "" }
-    note_title { "MyString" }
-    note_body { "" }
+    user_id { '' }
+    category_id { '' }
+    category_name { 'MyString' }
+    note_id { '' }
+    note_title { 'MyString' }
+    note_body { '' }
   end
 
   factory :user do
@@ -14,10 +14,10 @@ FactoryBot.define do
     password { '123456' }
     password_confirmation { '123456' }
     admin { false }
-    
+
     trait :admin do
       admin { true }
-    end 
+    end
   end
 
   factory :note do
@@ -25,7 +25,7 @@ FactoryBot.define do
     body { Faker::Lorem.paragraph }
     favorite { 0 }
     category
-    user 
+    user
   end
 
   factory :category do
@@ -33,7 +33,7 @@ FactoryBot.define do
     parent_id { nil }
     favorite { 0 }
     user
-    
+
     factory :category_with_notes do
       transient do
         notes_count { 2 }
@@ -100,7 +100,8 @@ FactoryBot.define do
       after(:create) do |category, evaluator|
         create_list(:category_with_subcategories_and_notes,
                     evaluator.subs_count, favorite: category.favorite,
-                    parent_id: category.id, user: category.user)
+                                          parent_id: category.id,
+                                          user: category.user)
       end
     end
   end
