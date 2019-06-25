@@ -3,8 +3,10 @@ require 'rails_helper'
 RSpec.describe CategoriesController, type: :controller do
   context 'when user is not logged in' do
     describe 'POST #create' do
-      let(:params) { category: { name: "Music", favorite_token: 0 } }
-      let(:post_create) { post :create, params: params }
+      let(:category_params) { { name: "Music", favorite_token: 0 } }
+      let(:post_create) do
+        post :create, params: { category: category_params } }
+      end
       end
       it 'should redirect to login url' do
         expect { post_create }.not_to change { Category.count }
