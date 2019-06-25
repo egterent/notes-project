@@ -115,7 +115,7 @@ RSpec.describe Category, type: :model do
       context 'if  category contains subcategories' do
         subject do
           create(:category_with_two_levels_subcategories, subs_count: 2,
-                 subs_2_count: 2)
+                                                          subs_2_count: 2)
         end
 
         it 'should return the category with all subcategories' do
