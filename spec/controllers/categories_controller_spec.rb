@@ -9,19 +9,18 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it 'should redirect to login url' do
-        expect { create_category }.not_to change { Category.count }
+        expect { create_category }.not_to { change { Category.count } }
         should redirect_to(login_url)
       end
     end
 
     describe 'DELETE #destroy' do
-      let(:category) { create(:category) }
       let(:delete_category) do
-        delete :destroy, params: { id: category.id }
+        delete :destroy, params: { id: create(:category).id }
       end
 
-      it 'should redirect to login url' do        
-        expect { delete_category }.not_to change { Category.count }
+      it 'should redirect to login url' do       
+        expect { delete_category }.not_to { change { Category.count } }
         should redirect_to(login_url)
       end
     end
