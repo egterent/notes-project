@@ -19,3 +19,4 @@ AllCops:
   - config/spring.rb
   - bin/yarn
   - Gemfile
+  - spec/rails_helper.rb
