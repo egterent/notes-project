@@ -11,6 +11,9 @@ before_install:
   - gem install rspec -v 3.8.0
   - gem install bundler -v 2.0.1
 
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+
 script:
   - rspec
   - rubocop
