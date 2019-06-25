@@ -6,7 +6,8 @@ RSpec.shared_context 'initialize subject' do
     inverse[favorite_token]
   end
   subject(:subject_1) do
-    create(:category_with_two_levels_subcategories_and_notes, favorite: inverse_favorite_token)
+    create(:category_with_two_levels_subcategories_and_notes,
+           favorite: inverse_favorite_token)
   end
 end
 
@@ -14,10 +15,9 @@ RSpec.shared_context 'notes and categories masks' do
   let(:notes_mask) do
     mask = {}
     subject_1.each do |category|
-      if category.notes.any?
-        category.notes.each do |note|
-          mask[note.id] = inverse_favorite_token
-        end
+      next unless category.notes.any?
+      category.notes.each do |note|
+        mask[note.id] = inverse_favorite_token
       end
     end
     category.subcategories.each do |subcategory|

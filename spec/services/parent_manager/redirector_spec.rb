@@ -3,7 +3,7 @@ require_relative '../../shared/services_shared_context'
 
 RSpec.describe ParentManager::Redirector do
   include_context 'categories url'
-  let(:session) { { :parent_category_url => url } }
+  let(:session) { { parent_category_url: url } }
 
   context 'when called' do
     it 'should remove parent category url from session' do
@@ -12,9 +12,9 @@ RSpec.describe ParentManager::Redirector do
     end
 
     it 'should return parent category url' do
-      url_1 = ""
-      described_class.call(session) { |str| url_1 = str }
-      expect(url_1).to eq(url)
+      url1 = ""
+      described_class.call(session) { |str| url1 = str }
+      expect(url1).to eq(url)
     end
   end
 end

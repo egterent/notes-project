@@ -3,19 +3,22 @@ require 'rails_helper'
 RSpec.describe CategoriesController, type: :controller do
   context 'when user is not logged in' do
     describe 'POST #create' do
+      let(:params) { category: { name: "Music", favorite_token: 0 } }
+      let(:post_create) { post :create, params: params }
+      end
       it 'should redirect to login url' do
-        expect { post :create, params: { category: { name: "Music",
-                                                     favorite_token: 0 } } }
-                .not_to change { Category.count }
+        expect { post_create }.not_to change { Category.count }
         should redirect_to(login_url)
       end
     end
 
     describe 'DELETE #destroy' do
       it 'should redirect to login url' do
+        let(:delete_category) do
+          delete :destroy, params: { :id => category.id }
+        end
         category = create(:category)
-        expect { delete :destroy, params: { :id => category.id } }
-                .not_to change { Category.count }
+        expect { delete_category }.not_to change { Category.count }
         should redirect_to(login_url)
       end
     end

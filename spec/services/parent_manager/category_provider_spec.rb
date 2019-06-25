@@ -10,14 +10,14 @@ RSpec.describe ParentManager::CategoryProvider do
 
     context 'in a parent category' do
       it 'should return the parent category' do
-        session = { :parent_category_url => url + category.id.to_s }
+        session = { parent_category_url: url + category.id.to_s }
         expect(described_class.call(session, user)).to eql(category)
       end
     end
 
     context 'in index' do
       it 'should return nil' do
-        session = { :parent_category_url => url }
+        session = { parent_category_url: url }
         expect(described_class.call(session, user)).to be(nil)
       end
     end

@@ -51,9 +51,11 @@ RSpec.describe Category, type: :model do
         end
 
         context 'when a note is deleted' do
+          let(subject_0) do
+            subject.subcategories.first.notes.first.destroy
+          end
           it 'should decrement nested notes count' do
-            expect { subject.subcategories.first.notes.first.destroy }.to change
-              { subject.nested_notes_count }.by(-1)
+            expect { subject_0 }.to change { subject.nested_notes_count }.by(-1)
           end
         end
 

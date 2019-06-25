@@ -1,4 +1,13 @@
 FactoryBot.define do
+  factory :archive do
+    user_id { "" }
+    category_id { "" }
+    category_name { "MyString" }
+    note_id { "" }
+    note_title { "MyString" }
+    note_body { "" }
+  end
+
   factory :user do
     name { Faker::Name.name }
     sequence(:email) { |n| "user-#{n}@example.com" }
@@ -31,7 +40,9 @@ FactoryBot.define do
       end
 
       after(:create) do |category, evaluator|
-        create_list(:note, evaluator.notes_count, favorite: category.favorite, category: category, user: category.user)
+        create_list(:note, evaluator.notes_count,
+                    favorite: category.favorite,
+                    category: category, user: category.user)
       end
     end
 
@@ -41,7 +52,9 @@ FactoryBot.define do
       end
 
       after(:create) do |category, evaluator|
-        create_list(:category, evaluator.subs_count, favorite: category.favorite, parent_id: category.id, user: category.user)
+        create_list(:category, evaluator.subs_count,
+                    favorite: category.favorite,
+                    parent_id: category.id, user: category.user)
       end
     end
 
@@ -55,7 +68,10 @@ FactoryBot.define do
       end
 
       after(:create) do |category, evaluator|
-        create_list(:category_with_subcategories, evaluator.subs_count, subs_count: evaluator.subs_2_count, favorite: category.favorite, parent_id: category.id, user: category.user)
+        create_list(:category_with_subcategories, evaluator.subs_count,
+                    subs_count: evaluator.subs_2_count,
+                    favorite: category.favorite, parent_id: category.id,
+                    user: category.user)
       end
     end
 
@@ -69,7 +85,10 @@ FactoryBot.define do
       end
 
       after(:create) do |category, evaluator|
-        create_list(:category_with_notes, evaluator.subs_count, notes_count: evaluator.notes_count, favorite: category.favorite, parent_id: category.id, user: category.user)
+        create_list(:category_with_notes, evaluator.subs_count,
+                    notes_count: evaluator.notes_count,
+                    favorite: category.favorite, parent_id: category.id,
+                    user: category.user)
       end
     end
 
@@ -79,7 +98,9 @@ FactoryBot.define do
       end
 
       after(:create) do |category, evaluator|
-        create_list(:category_with_subcategories_and_notes, evaluator.subs_count, favorite: category.favorite, parent_id: category.id, user: category.user)
+        create_list(:category_with_subcategories_and_notes,
+                    evaluator.subs_count, favorite: category.favorite,
+                    parent_id: category.id, user: category.user)
       end
     end
   end

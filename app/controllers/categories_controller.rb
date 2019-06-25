@@ -14,23 +14,14 @@ class CategoriesController < ApplicationController
   end
 
   def new
-    @category = current_user.categories.build
     ParentManager::Reminder.call(session, request.referrer)
     parent = ParentManager::CategoryProvider.call(session, current_user)
-    favorite_status = parent.favorite if parent
+    @category = current_user.categories.build(favorite: parent.favorite)
   end
 
   def create
-    @category = current_user.categories.build(category_params)
-    parent = ParentManager::CategoryProvider.call(session, current_user)
-    @category.parent_id = parent.id if parent
-    if @category.save
-      @category.update_related_items(params[:category][:favorite])
-      flash[:success] = 'Сategory created!'
-      ParentManager::Redirector.call(session) { |back| redirect_to back }
-    else
-      render 'new'
-    end
+    @category = new_category
+    save_category
   end
 
   def edit
@@ -39,13 +30,7 @@ class CategoriesController < ApplicationController
 
   def update
     @category = current_user.categories.find(params[:id])
-    if @category.update_attributes(category_params)
-      @category.update_related_items(params[:category][:favorite])
-      flash[:success] = 'Category updated'
-      redirect_to @category.parent || categories_url
-    else
-      render 'edit'
-    end
+    update_category
   end
 
   def destroy
@@ -72,6 +57,33 @@ class CategoriesController < ApplicationController
       @categories = @category.subcategories.paginate(page: params[:page])
     else
       @notes = @category.notes.paginate(page: params[:page])
+    end
+  end
+
+  def new_category
+    parent = ParentManager::CategoryProvider.call(session, current_user)
+    category = current_user.categories.build(category_params)
+    category.parent_id = parent.id if parent
+    category
+  end
+
+  def save_category
+    if @category.save
+      @category.update_related_items(params[:category][:favorite])
+      flash[:success] = 'Сategory created!'
+      ParentManager::Redirector.call(session) { |back| redirect_to back }
+    else
+      render 'new'
+    end
+  end
+
+  def update_category
+    if @category.update_attributes(category_params)
+      @category.update_related_items(params[:category][:favorite])
+      flash[:success] = 'Category updated'
+      redirect_to @category.parent || categories_url
+    else
+      render 'edit'
     end
   end
 end

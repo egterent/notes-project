@@ -1,6 +1,7 @@
 class Category < ApplicationRecord
   has_many :notes, dependent: :destroy
-  has_many :subcategories, class_name: 'Category', foreign_key: 'parent_id', dependent: :destroy
+  has_many :subcategories, class_name: 'Category', foreign_key: 'parent_id',
+                          dependent: :destroy
   belongs_to :parent, class_name: 'Category', optional: true
   belongs_to :user
   validates :user_id, presence: true
@@ -20,7 +21,7 @@ class Category < ApplicationRecord
     count
   end
 
-  #Updates favorite status of all related categories and notes.
+  # Updates favorite status of all related categories and notes.
   def update_related_items(favorite_token)
     update_nested_items(favorite_token)
     update_nesting_categories(favorite_token)
@@ -70,6 +71,7 @@ class Category < ApplicationRecord
   # if one of nested categories favorite status was turned-off
   def change_parent_favorite_to_zero
     return unless parent
+    
     parent.update_attribute(:favorite, 0)
     parent.change_parent_favorite_to_zero
   end
