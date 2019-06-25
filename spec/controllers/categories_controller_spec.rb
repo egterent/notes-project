@@ -5,7 +5,7 @@ RSpec.describe CategoriesController, type: :controller do
     describe 'POST #create' do
       let(:category_params) { { name: 'Music', favorite_token: 0 } }
       let(:post_create) do
-        post :create, params: { category: category_params } }
+        post :create, params: { category: category_params }
       end
       end
       it 'should redirect to login url' do
