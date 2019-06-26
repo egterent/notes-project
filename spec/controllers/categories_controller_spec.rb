@@ -9,7 +9,7 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it 'should redirect to login url' do
-        expect { post_create }.not_to { change { Category.all.count } }
+        expect { post_create }.not_to change { Category.all.count }
         should redirect_to(login_url)
       end
     end
@@ -21,7 +21,7 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it 'should redirect to login url' do
-        expect { delete_category }.not_to change { { Category.all.count } }
+        expect { delete_category }.not_to change { Category.all.count }
         should redirect_to(login_url)
       end
     end
