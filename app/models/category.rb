@@ -10,20 +10,19 @@ class Category < ApplicationRecord
 
   # Returns count of notes in all nested categories
   def nested_notes_count
-    return notes.count if notes.any?
-
-    return 0 unless subcategories.any?
-
     count = 0
     subcategories.each do |category|
-      count += category.nested_notes_count
+      next unless category.notes.any?
+
+      count += category.notes.count
     end
     count
   end
 
   # Updates favorite status of all related categories and notes.
   def update_related_items(favorite_token)
-    update_nested_items(favorite_token)
+    update_subcategories(favorite_token)
+    update_notes(favorite_token)
     update_nesting_categories(favorite_token)
   end
 
@@ -42,17 +41,22 @@ class Category < ApplicationRecord
 
   protected
 
-  # Updates all nested categories and notes favorite status.
-  def update_nested_items(favorite_token)
-    if subcategories.any?
-      subcategories.each do |subcategory|
-        subcategory.update_attribute(:favorite, favorite_token)
-        subcategory.update_nested_items(favorite_token)
-      end
-    elsif notes.any?
-      notes.each do |note|
-        note.update_attribute(:favorite, favorite_token)
-      end
+  # Updates all nested categories favorite status.
+  def update_subcategories(favorite_token)
+    return unless subcategories.any?
+
+    subcategories.each do |subcategory|
+      subcategory.update_attribute(:favorite, favorite_token)
+      subcategory.update_notes(favorite_token)
+    end
+  end
+
+  # Updates all nested notes favorite status.
+  def update_notes(favorite_token)
+    return unless notes.any?
+
+    notes.each do |note|
+      note.update_attribute(:favorite, favorite_token)
     end
   end
 

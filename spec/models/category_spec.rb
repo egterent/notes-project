@@ -72,13 +72,15 @@ RSpec.describe Category, type: :model do
     end
 
     describe 'update_related_items' do
+      include_context 'initialize subject and masks'
+
       context 'when favorite token value is' do
         context '0' do
           let(:favorite_token) { 0 }
-          include_context 'initialize subject'
 
           context 'all related items favorite status' do
             include_context 'one category favorite status updated'
+
             include_examples 'should change related items favorite status'
           end
         end
@@ -87,15 +89,13 @@ RSpec.describe Category, type: :model do
           let(:favorite_token) { 1 }
 
           context 'all nested items favorite status' do
-            include_context 'initialize subject'
             include_context 'one category favorite status updated'
 
             include_examples 'should change related items favorite status'
           end
 
           context 'favorite status of parent category' do
-            include_context 'initialize subject'
-            include_context 'two categories favorite status updated'
+            include_context 'two subcategories favorite status updated'
 
             context 'if all nested subcategories favorite status is 1' do
               include_examples 'should change related items favorite status'
@@ -107,7 +107,7 @@ RSpec.describe Category, type: :model do
 
     describe 'each' do
       context 'if category does not contain any subcategories' do
-        it 'should return the category' do
+        it 'should return it self' do
           expect(subject.each).to contain_exactly(subject)
         end
       end
