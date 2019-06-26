@@ -1,0 +1,13 @@
+<%= form_for(@category) do |f| %>
+  <%= render 'shared/error_messages', object: @category %>
+
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form-control' %>
+
+  <%= f.label :favorite, class: "checkbox inline" do %>
+    <%= f.check_box :favorite %>
+    <span>Favorite</span>
+  <% end %>
+
+  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+<% end %>

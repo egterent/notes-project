@@ -2,6 +2,8 @@ Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
+Metrics/BlockLength:
+  Enabled: false
 AllCops:
   Excludes:
   - bin/update
@@ -13,6 +15,8 @@ AllCops:
   - bin/setup
   - vendor/bundle/**/*
   - db/seeds.rb
+  - db/schema.rb
   - config/spring.rb
   - bin/yarn
   - Gemfile
+  - spec/rails_helper.rb
