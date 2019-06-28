@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class NotesController < ApplicationController
+  before_action :logged_in_user, only: %i[create destroy]
+  before_action :correct_user,   only: :destroy
+
   def index
     @notes = current_user.notes.all
   end
@@ -41,6 +44,11 @@ class NotesController < ApplicationController
 
   def note_params
     params.require(:note).permit(:title, :body, :favorite, :category_id)
+  end
+
+  def correct_user
+    @category = current_user.categories.find_by(id: params[:id])
+    redirect_to categories_url
   end
 
   def save_note
