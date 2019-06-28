@@ -10,7 +10,7 @@ class Category < ApplicationRecord
 
   # Returns count of notes in all nested categories
   def nested_notes_count
-    count = 0
+    count = notes.any? ? notes.count : 0
     subcategories.each do |category|
       next unless category.notes.any?
 
@@ -24,6 +24,17 @@ class Category < ApplicationRecord
     update_subcategories(favorite_token)
     update_notes(favorite_token)
     update_nesting_categories(favorite_token)
+  end
+
+  # Updates favorite status of chain of nesting categories
+  # from the changed category parent to the top category.
+  def update_nesting_categories(favorite_token)
+    case favorite_token
+    when 0
+      change_parent_favorite_to_zero
+    when 1
+      change_parent_favorite_to_one
+    end
   end
 
   def each(&block)
@@ -60,18 +71,7 @@ class Category < ApplicationRecord
     end
   end
 
-  # Updates favorite status of chain of nesting categories
-  # from changed category parent to top category.
-  def update_nesting_categories(favorite_token)
-    case favorite_token
-    when 0
-      change_parent_favorite_to_zero
-    when 1
-      change_parent_favorite_to_one
-    end
-  end
-
-  # Changes parent category favorite status to 0
+  # Changes the parent category favorite status to 0
   # if one of nested categories favorite status was turned-off
   def change_parent_favorite_to_zero
     return unless parent
@@ -80,7 +80,7 @@ class Category < ApplicationRecord
     parent.change_parent_favorite_to_zero
   end
 
-  # Changes parent category favorite staus to 1
+  # Changes the parent category favorite status to 1
   # if all nested categories favorite status was turned-on
   def change_parent_favorite_to_one
     return unless parent
