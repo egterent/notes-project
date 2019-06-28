@@ -18,15 +18,7 @@ class NotesController < ApplicationController
 
   def create
     @note = current_user.notes.build(note_params)
-    @note.body = Rinku.auto_link(@note.body, mode=:all,
-                                 link_attr=nil, skip_tags=nil)
-    if @note.save
-      @note.update_category(params[:note][:favorite])
-      flash[:success] = 'Note created!'
-      ParentManager::Redirector.call(session) { |back| redirect_to back }
-    else    
-      render 'new'
-    end
+    save_note
   end
 
   def edit
@@ -35,13 +27,7 @@ class NotesController < ApplicationController
 
   def update
     @note = current_user.notes.find(params[:id])
-    if @note.update_attributes(note_params)
-      @note.update_category(params[:note][:favorite])
-      flash[:success] = 'Note updated'
-      redirect_to @note.category
-    else
-      render 'edit'
-    end
+    update_note
   end
 
   def destroy
@@ -55,5 +41,25 @@ class NotesController < ApplicationController
 
   def note_params
     params.require(:note).permit(:title, :body, :favorite, :category_id)
+  end
+
+  def save_note
+    if @note.save
+      @note.update_category(params[:note][:favorite])
+      flash[:success] = 'Note created!'
+      ParentManager::Redirector.call(session) { |back| redirect_to back }
+    else
+      render 'new'
+    end
+  end
+
+  def update_note
+    if @note.update_attributes(note_params)
+      @note.update_category(params[:note][:favorite])
+      flash[:success] = 'Note updated'
+      redirect_to @note.category
+    else
+      render 'edit'
+    end
   end
 end
