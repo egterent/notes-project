@@ -1,24 +1,11 @@
-<h3> Edit a note </h3>
+<% provide(:title, 'Edit note') %>
+<% provide(:button_text, 'Save changes') %>
+<h1>Update the note</h1>
 
-<%= form_for :note, url: note_path(@note), method: :patch do |f| %>
-<% if @note.errors.any? %>
- <% @note.errors.full_messages.each do |msg| %>
- <div class="alert alert-danger"><%= msg %></div>
-<% end %>
-<% end %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= link_to 'Back', @note.category %>
+    <%= render 'form' %> 
+  </div>
+</div>
 
-<p>
-  Title<br>
-  <%= f.text_field(:title, {class: 'form-control'}) %>
-</p>
-
-<p>
-  Note<br>
-  <%= f.text_area(:body, { class: 'form-control'}) %>
-</p>
-
-<p>
-  <%= f.submit({class: 'btn btn-outline-success'}) %>
-</p>
-
-<% end %>

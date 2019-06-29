@@ -1,52 +1,73 @@
 # frozen_string_literal: true
 
 class NotesController < ApplicationController
-  def index
-    @notes = Note.all
-  end
+  before_action :logged_in_user, only: %i[create destroy]
+  before_action :correct_user,   only: :destroy
 
-  def new
-    @note = Note.new
+  def index
+    @notes = current_user.notes.all
   end
 
   def show
-    @note = Note.find(params[:id])
+    @note = current_user.notes.find(params[:id])
   end
 
-  def edit
-    @note = Note.find(params[:id])
-  end
-
-  def update
-    @note = Note.find(params[:id])
-
-    if @note.update(note_params)
-      redirect_to @note
-    else
-      render 'edit'
-    end
-  end
-
-  def destroy
-    @note = Note.find(params[:id])
-    @note.destroy
-    redirect_to notes_path
+  def new
+    ParentManager::Reminder.call(session, request.referrer)
+    category = ParentManager::CategoryProvider.call(session, current_user)
+    @note = current_user.notes.build(favorite: category.favorite,
+                                     category_id: category.id)
   end
 
   def create
-    # render plain: params[:note].inspect
-    @note = Note.new(note_params)
+    @note = current_user.notes.build(note_params)
+    save_note
+  end
 
-    if @note.save
-      redirect_to @note
-    else
-      render 'new'
-    end
+  def edit
+    @note = current_user.notes.find(params[:id])
+  end
+
+  def update
+    @note = current_user.notes.find(params[:id])
+    update_note
+  end
+
+  def destroy
+    @note = current_user.notes.find(params[:id])
+    category = @note.category
+    @note.destroy
+    redirect_to category
   end
 
   private
 
   def note_params
-    params.require(:note).permit(:title, :body)
+    params.require(:note).permit(:title, :body, :favorite, :category_id)
+  end
+
+  def correct_user
+    @category = current_user.categories.find_by(id: params[:id])
+    redirect_to categories_url
+  end
+
+  def save_note
+    if @note.save
+      @note.update_category(params[:note][:favorite])
+      flash[:success] = 'Note created!'
+      ParentManager::Redirector.call(session) { |back| redirect_to back }
+    else
+      render 'new'
+    end
+  end
+
+  def update_note
+    if @note.update_attributes(note_params)
+      @note.update_category(params[:note][:favorite])
+      flash[:success] = 'Note updated'
+      redirect_to @note.category
+    else
+      render 'edit'
+    end
   end
 end

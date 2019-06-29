@@ -1,24 +1,9 @@
-<h3> Create a new note </h3>
+<% provide(:title, 'New note') %>
+<% provide(:button_text, 'Create') %>
+<h1>Create a new note</h1>
 
-<%= form_for :note, url: notes_path do |f| %>
-<% if @note.errors.any? %>
- <% @note.errors.full_messages.each do |msg| %>
- <div class="alert alert-danger"><%= msg %></div>
-<% end %>
-<% end %>
-
-<p>
-  Title<br>
-  <%= f.text_field(:title, {class: 'form-control'}) %>
-</p>
-
-  <p>
-  Note<br>
-  <%= f.text_area(:body, { class: 'form-control'}) %>
-</p>
-
-<p>
-  <%= f.submit({class: 'btn btn-outline-success'}) %>
-</p>
-
-<% end %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= render 'form' %>
+  </div>
+</div>

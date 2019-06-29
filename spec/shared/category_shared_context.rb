@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_context 'initialize subject and masks' do
+RSpec.shared_context 'initialize subject' do
   let(:inverse_favorite_token) do
     inverse = { 0 => 1, 1 => 0 }
     inverse[favorite_token]
@@ -9,8 +9,10 @@ RSpec.shared_context 'initialize subject and masks' do
     create(:category_with_two_levels_subcategories_and_notes,
            favorite: inverse_favorite_token)
   end
-  let(:category) { subject_1.subcategories.first }
-  let(:notes_mask) do
+end
+
+RSpec.shared_context 'basic favorite masks' do
+  let(:basic_notes_mask) do
     mask = {}
     subject_1.each do |category|
       next unless category.notes.any?
@@ -19,24 +21,36 @@ RSpec.shared_context 'initialize subject and masks' do
         mask[note.id] = inverse_favorite_token
       end
     end
-    category.subcategories.each do |subcategory|
-      subcategory.notes.each do |note|
-        mask[note.id] = favorite_token
-      end
-    end
-    mask.map { |k, v| [k, v.to_s] }.to_h
+    mask
   end
-  let(:categories_mask) do
+  let(:basic_categories_mask) do
     mask = {}
     subject.each do |category|
       mask[category.id] = inverse_favorite_token
     end
-    mask[category.id] = favorite_token
+    mask
+  end
+end
+
+RSpec.shared_context 'initialize subject and masks' do
+  include_context 'initialize subject'
+  include_context 'basic favorite masks'
+  let(:category) { subject_1.subcategories.first }
+  let(:notes_mask) do
     category.subcategories.each do |subcategory|
-      mask[subcategory.id] = favorite_token
+      subcategory.notes.each do |note|
+        basic_notes_mask[note.id] = favorite_token
+      end
     end
-    mask[category.parent_id] = 0 if favorite_token == 0
-    mask.map { |k, v| [k, v.to_s] }.to_h
+    basic_notes_mask.map { |k, v| [k, v.to_s] }.to_h
+  end
+  let(:categories_mask) do
+    basic_categories_mask[category.id] = favorite_token
+    category.subcategories.each do |subcategory|
+      basic_categories_mask[subcategory.id] = favorite_token
+    end
+    basic_categories_mask[category.parent_id] = 0 if favorite_token == 0
+    basic_categories_mask.map { |k, v| [k, v.to_s] }.to_h
   end
 end
 

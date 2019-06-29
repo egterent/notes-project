@@ -16,7 +16,8 @@ class CategoriesController < ApplicationController
   def new
     ParentManager::Reminder.call(session, request.referrer)
     parent = ParentManager::CategoryProvider.call(session, current_user)
-    @category = current_user.categories.build(favorite: parent.favorite)
+    favorite = parent ? parent.favorite : 0
+    @category = current_user.categories.build(favorite: favorite)
   end
 
   def create
