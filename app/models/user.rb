@@ -11,8 +11,7 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6 }, allow_nil: true
   has_many :notes
   mount_uploader :avatar, AvatarUploader
-  validate  :avatar_size
-
+  validate :avatar_size
 
   # Returns the hash digest of the given string.
   def self.digest(string)
@@ -48,11 +47,9 @@ class User < ApplicationRecord
   end
 
   private
-  
+
   # Validates the size of an uploaded picture.
   def avatar_size
-    if avatar.size > 5.megabytes
-      errors.add(:picture, "should be less than 5MB")
-    end
+    errors.add(:picture, 'should be less than 5MB') if avatar.size > 5.megabytes
   end
 end
