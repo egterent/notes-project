@@ -11,6 +11,10 @@ gem 'rspec', '~> 3.8'
 gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
 gem 'rubocop', '~> 0.70.0'
 
+# Require 'dotenv/load' in rails_helper.rb to load environment variables from `.env`
+gem 'dotenv-rails', require: 'dotenv/rails-now'
+# Use Devise.mappings for easy authentication in specs
+gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record
@@ -31,6 +35,10 @@ gem 'jquery-rails',            '4.3.3'
 gem 'uglifier', '4.1.20'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
+# Custom images uploader
+gem 'carrierwave', '>= 2.0.0.rc', '< 3.0'
+# Use auto_link to display clicable links
+gem 'rinku'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '4.2.2'
@@ -86,6 +94,10 @@ group :test do
   gem 'chromedriver-helper', '2.1.1'
   # Use Shoulda Matchers one-liners to DRY common Rails functionality tests
   gem 'shoulda-matchers'
+end
+
+group :production do
+  gem 'fog'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
