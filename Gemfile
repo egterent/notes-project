@@ -13,8 +13,6 @@ gem 'rubocop', '~> 0.70.0'
 
 # Require 'dotenv/load' in rails_helper.rb to load environment variables from `.env`
 gem 'dotenv-rails', require: 'dotenv/rails-now'
-# Use Devise.mappings for easy authentication in specs
-gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record
@@ -64,10 +62,10 @@ gem 'faker'
 gem 'bootsnap', '1.4.4', require: false
 
 group :development, :test do
-
+  # Use Devise.mappings for easy authentication in specs
+  gem 'devise'
   # Call 'byebug' anywhere in the code to stop execution
   # and get a debugger console
-
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   # Use factory_bot for fixtures replacement
   gem 'factory_bot_rails'
