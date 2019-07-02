@@ -1,5 +1,10 @@
 <li>
-  <%= gravatar_for user, size: 50 %>
+  <% if user.avatar? %>
+    <% user.avatar.recreate_versions! %>
+    <%= image_tag user.avatar.url(:thumb) %>
+  <% else %>
+    <%= gravatar_for user, size: 50 %>
+  <% end %>
   <%= link_to user.name, user %>
     <% if current_user.admin? && !current_user?(user) %>
     | <%= link_to "delete", user, method: :delete,
