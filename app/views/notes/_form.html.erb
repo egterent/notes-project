@@ -1,0 +1,21 @@
+<%= form_for(@note) do |f| %>
+  <%= render 'shared/error_messages', object: @note %>
+
+  <%= f.label :title %>
+  <%= f.text_field :title, class: 'form-control' %>
+
+  <%= f.label :body %>
+  <%= f.text_area(:body, { class: 'form-control'}) %>
+
+  <%= f.label :favorite, class: "checkbox inline" do %>
+    <%= f.check_box :favorite %>
+    <span>Favorite</span>
+  <% end %>
+
+  <div hidden>
+    <%= f.label :category_id%>
+    <%= f.text_field :category_id, class: 'form-control' %>
+  </div>
+  
+  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+<% end %>

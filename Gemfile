@@ -37,6 +37,8 @@ gem 'uglifier', '4.1.20'
 gem 'carrierwave', '>= 2.0.0.rc', '< 3.0'
 # Use auto_link to display clicable links
 gem 'rinku'
+# Provides helper methods for the reCAPTCHA API
+gem 'recaptcha'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '4.2.2'
