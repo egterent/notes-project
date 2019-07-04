@@ -19,13 +19,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
+    if !verify_recaptcha
+      registration_failed('Recaptcha error')
+    elsif @user.save
       log_in @user
-      flash[:success] = 'Welcome to the Notes!'
+      flash[:success] = 'Welcome to Notes!'
       redirect_to @user
     else
-      flash.now[:danger] = 'Invalid email/password combination'
-      render 'new'
+      registration_failed('Invalid email/password combination')
     end
   end
 
@@ -66,5 +67,10 @@ class UsersController < ApplicationController
   # Confirms an admin user.
   def admin_user
     redirect_to root_url unless current_user.admin?
+  end
+
+  def registration_failed(msg)
+    flash.now[:danger] = msg
+    render 'new'
   end
 end
