@@ -22,7 +22,7 @@ gem 'puma', '3.12.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '5.0.7'
 # "bootstrap-sprockets" must be imported before "bootstrap" in stylesheets
-gem 'bootstrap-sass', '~> 3.4.1'
+gem 'bootstrap'
 # Use paginate to make paginated queries
 gem 'will_paginate', '3.1.7'
 # Load the Bootstrap CSS in your template. Use will_paginate in views
