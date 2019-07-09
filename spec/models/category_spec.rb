@@ -76,8 +76,7 @@ RSpec.describe Category, type: :model do
 
       context 'when favorite token value is' do
         context '0' do
-          let(:favorite_token) { 0 }
-
+          let(:favorite_token) { '0' }
           context 'all related items favorite status' do
             include_context 'one category favorite status updated'
 
@@ -86,8 +85,7 @@ RSpec.describe Category, type: :model do
         end
 
         context '1' do
-          let(:favorite_token) { 1 }
-
+          let(:favorite_token) { '1' }
           context 'all nested items favorite status' do
             include_context 'one category favorite status updated'
 
@@ -96,7 +94,6 @@ RSpec.describe Category, type: :model do
 
           context 'favorite status of parent category' do
             include_context 'two subcategories favorite status updated'
-
             context 'if all nested subcategories favorite status is 1' do
               include_examples 'should change related items favorite status'
             end
