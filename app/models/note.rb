@@ -11,11 +11,11 @@ class Note < ApplicationRecord
   # from the changed note category to the top category.
   def update_category(favorite_token)
     case favorite_token
-    when 0
-      category.update_attribute(:favorite, 0)
-    when 1
-      unless category.notes.where(favorite: 0).any?
-        category.update_attribute(:favorite, 1)
+    when '0'
+      category.update_attribute(:favorite, '0')
+    when '1'
+      unless category.notes.where(favorite: '0').any?
+        category.update_attribute(:favorite, '1')
       end
     end
     category.update_nesting_categories(favorite_token)

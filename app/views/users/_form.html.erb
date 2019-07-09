@@ -13,10 +13,9 @@
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation, class: 'form-control' %>
 
-  <%= f.label :avatar %>
-  <span class="avatar">
-    <%= f.file_field :avatar, accept: 'image/jpeg,image/gif,image/png' %>
-  </span>
+  <%= recaptcha_tags %>
+
+  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
 
   <% if @user.avatar? %>
     <%= image_tag @user.avatar.url %>
@@ -24,9 +23,10 @@
     <%= gravatar_for @user %>
   <% end %>
 
-  <%= recaptcha_tags %>
-
-  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  <%= f.label :avatar %>
+  <span class="avatar">
+    <%= f.file_field :avatar, accept: 'image/jpeg,image/gif,image/png' %>
+  </span>
 <% end %>
 
 <script type="text/javascript">

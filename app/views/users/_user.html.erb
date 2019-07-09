@@ -5,9 +5,15 @@
   <% else %>
     <%= gravatar_for user, size: 50 %>
   <% end %>
-  <%= link_to user.name, user %>
+  <ul class="list-inline">
+    <li class="list-inline-item">
+      <%= link_to user.name, user %>
+    </li>
     <% if current_user.admin? && !current_user?(user) %>
-    | <%= link_to "delete", user, method: :delete,
-                                  data: { confirm: "Are you sure?" } %>
-  <% end %>
+      <li class="list-inline-item">
+        <%= link_to "", user, class: "far fa-trash-alt", method: :delete,
+                                                        data: { confirm: "Are you sure?" }%>
+      </li>
+    <% end %>
+  </ul>
 </li>

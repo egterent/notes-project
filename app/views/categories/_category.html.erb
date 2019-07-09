@@ -1,12 +1,31 @@
 <li id="category-<%= category.id %>">
-  <%= link_to category.name, category %>
-  | <%= link_to "update", edit_category_path(category) %> |
+  <ul class="list-inline">
+    <% if category.favorite == '1' %>
+      <li class="list-inline-item">
+        <i class="fas fa-star star"></i>
+      </li>
+    <% end %>
+    <li class="list-inline-item">
+      <%= link_to category.name, category %></li>
+    <li class="list-inline-item">
+      <%= link_to edit_category_path(category) do %>
+        <i class="fas fa-edit"></i>
+      <% end %>
+    </li>
   <% if category.nested_notes_count > 0 %>
     <% warning = "Category #{category.name.upcase} contains #{pluralize(category.nested_notes_count,"note")}! 
                   Delete anyway?" %>
-    <%= link_to "delete", category, method: :delete,
-                                    data: { confirm: warning } %>
+    <li class="list-inline-item">
+      <%= link_to category, method: :delete,
+                                    data: { confirm: warning } do %>
+        <i class="far fa-trash-alt"></i>
+      <% end %>
+    </li>
   <% else %>
-    <%= link_to "delete", category, method: :delete %>
+    <li class="list-inline-item">
+      <%= link_to category, method: :delete do %>
+        <i class="far fa-trash-alt"></i>
+      <% end %>
+    </li>
   <% end %>                            
 </li>

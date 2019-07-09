@@ -1,6 +1,6 @@
-<div align="center">
-<h3> My Notes </h3>
-</div>
+<% provide(:title, 'Notes') %>
+
+<h3>ALL NOTES [<%= current_user.categories.count %>|<%= current_user.notes.count %>]</h3>
 
 <% @notes.each do |note| %>
 
