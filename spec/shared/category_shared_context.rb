@@ -66,7 +66,7 @@ RSpec.shared_context 'two subcategories favorite status updated' do
   subject(:two_categories_updated_favorite) do
     category.subcategories.each do |subcategory|
       subcategory.update_attribute(:favorite, favorite_token)
-      subcategory.update_related_items(favorite_token)      
+      subcategory.update_related_items(favorite_token)
     end
     subject_1.reload
   end
