@@ -16,9 +16,9 @@
     <% if current_user.admin? || current_user?(@user) %> 
       <h3> <%= link_to "CATEGORIES", categories_path %> </h3>
       <h3> FAVORITE [<%= @favorites.count %>]</h3>
-      <ol class="favorites">
+      <ul class="list-unstyled">
         <%= render @favorites %>
-      </ol>
+      </ul>
       <% will_paginate @favorites %>
     <% end %>
   </div>

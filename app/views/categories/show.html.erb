@@ -1,21 +1,22 @@
 <% provide(:title, @category.name) %>
-<div class="row">
+<div class="row d-flex justify-content-center">
   <div class="col-md-8">
-    <h4><%= @category.name.upcase %> [<%= @category.subcategories.count %>|<%= @category.nested_notes_count %>]</h4>
     <% if @categories %>
-      <ol class="categories">
+      <h4><%= @category.name.upcase %> [<%= @category.subcategories.count %>|<%= @category.nested_notes_count %>]</h4>
+      <ul class="categories">
         <%= render @categories%>
-      </ol>
+      </ul>
       <%= will_paginate @categories %>
       <%= link_to "Add category", categories_new_path, class: "btn btn-lg btn-primary" %>
     <% elsif @notes.any? %>
-      <h3>Notes (<%= @notes.count %>)</h3>
-      <ol class="notes">
+      <h4><%= @category.name.upcase %> [<%= @notes.count %>]</h4>
+      <ul class="list-unstyled">
         <%= render @notes%>
-      </ol>
+      </ul>
       <%= will_paginate @notes %>
       <%= link_to "Add note", notes_new_path, class: "btn btn-lg btn-primary" %>
     <% else %>
+      <h4><%= @category.name.upcase %> [0|0]</h4>
       <%= link_to "Add category", categories_new_path, class: "btn btn-lg btn-primary" %>
       <%= link_to "Add note", notes_new_path, class: "btn btn-lg btn-primary" %>
     <% end %>

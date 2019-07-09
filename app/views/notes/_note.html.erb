@@ -1,7 +1,26 @@
 <li id="note-<%= note.id %>">
-  <span class="note"><%= link_to note.title, note %></span>
-  <span class="body"><%= raw Rinku.auto_link(note.body, mode = :all, link_attr = nil, skip_tags = nil) %></span>
-  <span class="timestamp">
-    | <%= time_ago_in_words(note.created_at) %> ago.
-  </span>                         
+  <ul class="list-inline">
+    <% if note.favorite == '1' %>
+      <li class="list-inline-item">
+        <i class="fas fa-star star"></i>
+      </li>
+    <% end %>
+    <li class="list-inline-item">
+      <%= link_to note.title, note %>
+    </li>
+    <li class="list-inline-item">
+      | <%= time_ago_in_words(note.created_at) %> ago.
+    </li>
+    <li class="list-inline-item">
+      <%= link_to edit_note_path(note) do %>
+        <i class="fas fa-edit"></i>
+      <% end %>
+    </li>
+    <li class="list-inline-item">
+      <%= link_to note, method: :delete do %>
+        <i class="far fa-trash-alt"></i>
+      <% end %>
+    </li>
+  </ul>
+  <p class="text-truncate"><%= raw Rinku.auto_link(note.body, mode = :all, link_attr = nil, skip_tags = nil) %></p>
 </li>

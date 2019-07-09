@@ -30,9 +30,9 @@ class Category < ApplicationRecord
   # from the changed category parent to the top category.
   def update_nesting_categories(favorite_token)
     case favorite_token
-    when 0
+    when '0'
       change_parent_favorite_to_zero
-    when 1
+    when '1'
       change_parent_favorite_to_one
     end
   end
@@ -76,7 +76,7 @@ class Category < ApplicationRecord
   def change_parent_favorite_to_zero
     return unless parent
 
-    parent.update_attribute(:favorite, 0)
+    parent.update_attribute(:favorite, '0')
     parent.change_parent_favorite_to_zero
   end
 
@@ -86,9 +86,9 @@ class Category < ApplicationRecord
     return unless parent
 
     return if parent.subcategories
-                    .where(favorite: 0).any?
+                    .where(favorite: '0').any?
 
-    parent.update_attribute(:favorite, 1)
+    parent.update_attribute(:favorite, '1')
     parent.change_parent_favorite_to_one
   end
 end
