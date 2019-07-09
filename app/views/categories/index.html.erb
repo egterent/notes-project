@@ -1,9 +1,14 @@
 <% provide(:title, 'Categories') %>
-<h3>ALL CATEGORIES [<%= current_user.categories.count %>|<%= current_user.notes.count %>]</h3>
-<% if @categories.any? %>
-  <ol class="categories">
-    <%= render @categories%>
-  </ol>
-  <%= will_paginate @categories %>
+<div class="row d-flex justify-content-center">
+  <div class="col-md-8">
+  <h3>ALL CATEGORIES [<%= current_user.categories.count %>|<%= current_user.notes.count %>]</h3>
+  <% if @categories.any? %>
+    <%= will_paginate @categories %>
+    <ul class="categories">
+      <%= render @categories%>
+    </ul>
+    <%= will_paginate @categories %>
 <% end %>
 <%= link_to "Add category", categories_new_path, class: "btn btn-lg btn-primary" %>
+  </div>
+</div>

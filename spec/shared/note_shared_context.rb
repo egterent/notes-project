@@ -7,7 +7,7 @@ RSpec.shared_context 'initialize subject and masks for notes' do
   let(:note) { category.notes.first }
   let(:notes_mask) do
     basic_notes_mask[note.id] = favorite_token
-    basic_notes_mask.map { |k, v| [k, v.to_s] }.to_h
+    basic_notes_mask
   end
 end
 
@@ -22,17 +22,17 @@ end
 RSpec.shared_context 'one note favorite status updated to 0' do
   include_context 'one note favorite status updated'
   let(:categories_mask) do
-    basic_categories_mask[subject_1.id] = 0
-    basic_categories_mask[subject_1.subcategories.first.id] = 0
-    basic_categories_mask[category.id] = 0
-    basic_categories_mask.map { |k, v| [k, v.to_s] }.to_h
+    basic_categories_mask[subject_1.id] = '0'
+    basic_categories_mask[subject_1.subcategories.first.id] = '0'
+    basic_categories_mask[category.id] = '0'
+    basic_categories_mask
   end
 end
 
 RSpec.shared_context 'one note favorite status updated to 1' do
   include_context 'one note favorite status updated'
   let(:categories_mask) do
-    basic_categories_mask.map { |k, v| [k, v.to_s] }.to_h
+    basic_categories_mask
   end
 end
 
@@ -46,6 +46,6 @@ RSpec.shared_context 'two notes favorite status updated' do
   end
   let(:categories_mask) do
     basic_categories_mask[category.id] = favorite_token
-    basic_categories_mask.map { |k, v| [k, v.to_s] }.to_h
+    basic_categories_mask
   end
 end

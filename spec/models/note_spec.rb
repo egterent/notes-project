@@ -9,7 +9,7 @@ RSpec.describe Note, type: :model do
 
       context 'when favorite token value is' do
         context '0' do
-          let(:favorite_token) { 0 }
+          let(:favorite_token) { '0' }
 
           context 'all nesting categories favorite status' do
             include_context 'one note favorite status updated to 0'
@@ -19,7 +19,7 @@ RSpec.describe Note, type: :model do
         end
 
         context '1' do
-          let(:favorite_token) { 1 }
+          let(:favorite_token) { '1' }
 
           context 'favorite status of nesting category' do
             context 'if all nested notes favorite status is 1' do
